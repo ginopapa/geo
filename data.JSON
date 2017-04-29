@@ -1,0 +1,194 @@
+[{
+	"id" :"65432",
+	"name" : "The northern circuit",
+	"info" : "This circuit path is crazy long",
+	"image" : "http://www.hmm.dot/poppiedop/nisse.jpg",
+	"paths" : [
+		{
+			"places" : [
+				{ 
+					"name": "Beer hut",
+					"info" : "It's hidden behind the big rock.",
+					"image" : "http://www.pics.com/thabigrock.png",
+					"radius" : 25,
+					"position" : {
+						"lat" : 63.82555200329026,
+						"lng" : 20.26475965976715
+					},
+					"media" : [
+						{
+							"type" : "text",
+							"contents" : "Anonymous hiker",
+							"name" : "Credits",
+							"image" : ""
+						}
+					]
+				},
+				{ 
+					"name": "Pizza hut",
+					"info" : "It's around the corner.",
+					"image" : "http://www.pics.com/pizza.png",
+					"radius" : 15,
+					"position" : {
+						"lat" : 62.82555200329026,
+						"lng" : 24.26475965976715
+					},
+					"media" : [
+						{
+							"type" : "text",
+							"contents" : "Gino",
+							"name" : "Credits",
+							"image" : ""
+						}
+					]
+				}
+			],
+			
+			"id" : "123456",
+			"name" : "Trail one",
+			"info" : "Time to start walking and stop eating pizza",
+			"length" : "4",
+			"polyline" : [
+				{
+					"lat" : 63.82555200329026,
+					"lng" : 20.26475965976715
+				},	
+				{
+					"lat" : 62.82555200329026,
+					"lng" : 24.26475965976715
+				}	
+			],
+			"duration": 60,
+			"image" : "http://www.yo.com/hmm.jpg"
+	},
+		{
+			"places" : [
+				{ 
+					"name": "Beer hut",
+					"info" : "It's hidden behind the big rock.",
+					"image" : "http://www.pics.com/thabigrock.png",
+					"radius" : 25,
+					"position" : {
+						"lat" : 63.82555200329026,
+						"lng" : 20.26475965976715
+					},
+					"media" : [
+						{
+							"type" : "text",
+							"contents" : "Anonymous hiker",
+							"name" : "Credits",
+							"image" : ""
+						}
+					]
+				},
+				{ 
+					"name": "Pizza hut",
+					"info" : "It's around the corner.",
+					"image" : "http://www.pics.com/pizza.png",
+					"radius" : 15,
+					"position" : {
+						"lat" : 62.82555200329026,
+						"lng" : 24.26475965976715
+					},
+					"media" : [
+						{
+							"type" : "text",
+							"contents" : "Gino",
+							"name" : "Credits",
+							"image" : ""
+						}
+					]
+				}
+			],
+			
+			"id" : "123456",
+			"name" : "Trail one",
+			"info" : "Time to start walking and stop eating pizza",
+			"length" : "4",
+			"polyline" : [
+				{
+					"lat" : 63.82555200329026,
+					"lng" : 20.26475965976715
+				},	
+				{
+					"lat" : 62.82555200329026,
+					"lng" : 24.26475965976715
+				}	
+			],
+			"duration": 60,
+			"image" : "http://www.yo.com/hmm.jpg"
+	}
+	]
+},
+
+{
+	"id" :"9999",
+	"name" : "The southern circuit",
+	"info" : "This circuit path is crazy long",
+	"image" : "http://www.hmm.dot/poppiedop/nisse.jpg",
+	"paths" : [
+		{
+			"places" : [
+				{ 
+					"name": "Beer hut",
+					"info" : "It's hidden behind the big rock.",
+					"image" : "http://www.pics.com/thabigrock.png",
+					"radius" : 25,
+					"position" : {
+						"lat" : 63.82555200329026,
+						"lng" : 20.26475965976715
+					},
+					"media" : [
+						{
+							"type" : "text",
+							"contents" : "Anonymous hiker",
+							"name" : "Credits",
+							"image" : ""
+						}
+					]
+				},
+				{ 
+					"name": "Pizza hut",
+					"info" : "It's around the corner.",
+					"image" : "http://www.pics.com/pizza.png",
+					"radius" : 15,
+					"position" : {
+						"lat" : 62.82555200329026,
+						"lng" : 24.26475965976715
+					},
+					"media" : [
+						{
+							"type" : "text",
+							"contents" : "Gino",
+							"name" : "Credits",
+							"image" : ""
+						}
+					]
+				}
+			],
+			
+		"id" : "123456",
+		"name" : "Trail one",
+		"info" : "Time to start walking and stop eating pizza",
+		"length" : "4",
+		"polyline" : [
+			{
+				"lat" : 63.82555200329026,
+				"lng" : 20.26475965976715
+			},	
+			{
+				"lat" : 62.82555200329026,
+				"lng" : 24.26475965976715
+			}
+		],
+		"duration": 60,
+		"image" : "http://www.yo.com/hmm.jpg"
+	}
+	]
+}
+
+
+
+]
+
+	
