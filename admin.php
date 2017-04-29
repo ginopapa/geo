@@ -39,16 +39,28 @@ body {
 
 	margin-left:70px;
 }
+
+.bundleimage {
+	height:50px;
+	width:50px;
+
+}
+
+.url {
+	width:400px;
+
+}
 </style>
 <script>
+var myObj=[];
 var xmlhttp = new XMLHttpRequest();
 xmlhttp.onreadystatechange = function() {
     if ((xmlhttp.readyState===4) && (xmlhttp.status===200)) {
-        var myObj = JSON.parse(xmlhttp.responseText);
+        myObj = JSON.parse(xmlhttp.responseText);
        	console.log(myObj);
 		var theContent="";
 		for (i = 0; i < myObj.length; i++) {
-			theContent+="<div class='bundle'>(BUNDLE) "+myObj[i].id+" / "+myObj[i].name+" / "+myObj[i].info+" / "+myObj[i].image;
+			theContent+="<div class='bundle'><img id='imB"+i+"' class='bundleimage' src='"+myObj[i].image+"'>(BUNDLE) "+myObj[i].id+" / "+myObj[i].name+" / "+myObj[i].info+" / <input id ='bi"+i+"' class='url' onblur='bundleImage("+i+");' value='"+myObj[i].image+"'></input>";
 				for (j = 0; j < myObj[i].paths.length; j++) {
 					theContent+="<div class='path'>(PATH) "+myObj[i].paths[j].id+" | "+myObj[i].paths[j].name+" | "+myObj[i].paths[j].info+" | "+myObj[i].paths[j].length+" | "+myObj[i].paths[j].image+" | "+myObj[i].paths[j].duration;
 					for (k = 0; k < myObj[i].paths[j].places.length; k++ ) {
@@ -61,14 +73,36 @@ xmlhttp.onreadystatechange = function() {
 					}
 					theContent+="</div>";
 				}	
-			theContent+="</div>";
+			theContent+="</div><button onclick='save();'>Save</button>";
 		}
 		document.getElementById("content").innerHTML=theContent;
     }	
     
 }
-xmlhttp.open("GET", "data.JSON", true);
+xmlhttp.open("GET", "api/data.json", true);
 xmlhttp.send();
+
+
+
+function bundleImage (bundleNr, thisId){
+	myObj[bundleNr].image=document.getElementById("bi"+bundleNr).value;
+	document.getElementById("imB"+bundleNr).src=myObj[bundleNr].image;
+	console.log (myObj[bundleNr].image);
+}
+
+function save() {
+	var my_json= JSON.stringify(myObj);
+	savedata = new XMLHttpRequest();
+	savedata.onreadystatechange = function() {
+    	if ((savedata.readyState===4) && (savedata.status===200)) {
+    		console.log(savedata.responseText);
+    	}
+    }
+	savedata.open("POST" , "api/api.php", true);
+	savedata.setRequestHeader("Content-type", "application/json");
+	savedata.send(my_json);
+	
+}
 </script>
 </head>
 
