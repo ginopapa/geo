@@ -63,7 +63,9 @@ $lng=$_GET['lng'];
 					if(typeof myObj[k].paths[j] ==="object") {
 						for (i=0; i <= myObj[k].paths[j].polyline.length; i++){
 							if (typeof myObj[k].paths[j].polyline[i] ==="object"){
-       							route.push(new google.maps.LatLng(myObj[k].paths[j].polyline[i].lat, myObj[k].paths[j].polyline[i].lng));
+								if (myObj[k].paths[j].polyline[i].lat==0 || myObj[k].paths[j].polyline[i].lng==0){} else {
+       								route.push(new google.maps.LatLng(myObj[k].paths[j].polyline[i].lat, myObj[k].paths[j].polyline[i].lng));
+       							}
        						}
        					}
        				}
