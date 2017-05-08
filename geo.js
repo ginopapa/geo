@@ -12,13 +12,23 @@
    				return now;
    			}
    			
-   			function resetVar(){
+   			function resetVar(from){
    				myObj=[];
    				idindex=0; //ta bort senare
-   				bundlenr=0;
-   				pathnr=0;
-   				placenr=0;
-   				medianr=0;
+   				
+   				switch(from){ //with fall-through
+   					
+   					case 'bundle':
+   						bundlenr=0;
+   					case 'path':
+   						pathnr=0;
+   					case 'place':	
+   						placenr=0;
+   					case 'media':
+   						medianr=0;
+   					default:
+   						break;
+   					}
    			}
    
    			function reset(){
@@ -36,7 +46,7 @@
    				//document.getElementById("path0").style.backgroundColor='lightgrey';
    			}
    			
-   			function contactServer(method, uri, message, extra) {
+   			function contactServer(method, uri, message, action) {
 				time=nowTime();
 				
 				cShttp = new XMLHttpRequest();
@@ -59,7 +69,30 @@
 							document.getElementById("username").placeholder="Login failed,";
 							document.getElementById("password").placeholder="try again!";
 						}
-						if (extra=="deletebundle"){resetVar(); loadBundle();}
+						
+						switch (action){
+							
+								case 'deletebundle':
+									resetVar('bundle'); loadBundle();
+									break;
+								case 'deletepath':
+									resetVar('path'); loadBundle('path');
+									break;		
+								case 'newbundle':
+									loadBundle();
+									break;
+								case 'newpath':
+									loadBundle('path');
+									break;
+								case 'newplace':
+									loadBundle('place');
+									break;							
+								case 'newmedia':
+									loadBundle('media');
+									break;	
+								default:
+									break;
+						}
 					}	
     			}
     			
@@ -130,7 +163,7 @@
 						div.appendChild(deleteimg);
 						parent.appendChild(div);
 
-						document.getElementById("nr"+i).onclick=function(){switchBundle(this.id);}; //Sometimes... strange solutions
+						document.getElementById("nr"+i).onclick=function(){switchBundle(this.id);}; // Se över DOM, rita upp ett träd och förbättra
 						document.getElementById("img"+i).onclick=function(){deleteBundle(this.id);};
 					}
 				}
@@ -191,11 +224,10 @@
 			}
 			
 			function newPath(){
-				contactServer("POST", "v1/api/paths/", idindex);
+				contactServer("POST", "v1/api/paths/", idindex, 'newpath');
 				document.getElementById("pathscontainer").innerHTML="";
 				document.getElementById("polylinecontainer").innerHTML="";
 				document.getElementById("placecontainer").innerHTML="";
-				loadBundle('path');
 			}
 			
 	
@@ -238,14 +270,12 @@
 			
 			function newPlace(){
 				var pathid=myObj[bundlenr].paths[pathnr].id;
-				contactServer("POST", "v1/api/places/", pathid);
-				loadBundle('place'); //Change later to make it look smoother
+				contactServer("POST", "v1/api/places/", pathid ,'newplace');
 			}
 			
 			function newMedia(){
 				var placeid=myObj[bundlenr].paths[pathnr].places[placenr].id;
-				contactServer("POST", "v1/api/media/", placeid);
-				loadBundle('media'); //Change later to make it look smoother
+				contactServer("POST", "v1/api/media/", placeid, 'newmedia');
 			}
 			
 			function loadMediaPictures() {
@@ -298,8 +328,7 @@
 				path=path.substr(10);
 				var question=confirm('Are you sure you want to delete');
 				if (question){
-					contactServer("DELETE", "v1/api/paths/", myObj[bundlenr].paths[path].id);
-					loadBundle('path');
+					contactServer("DELETE", "v1/api/paths/", myObj[bundlenr].paths[path].id, 'deletepath');
 				}
 			}
 
@@ -638,12 +667,12 @@
    		 	
    		 	
    		 	function newBundle() {
-				contactServer("POST", "v1/api/bundles", '');
+				contactServer("POST", "v1/api/bundles", '', 'newbundle');
 				document.getElementById("bundlescontainer").innerHTML="";
 				document.getElementById("pathscontainer").innerHTML="";
 				document.getElementById("polylinecontainer").innerHTML="";
 				//document.getElementById("placeinfocontainer").innerHTML="";
-				loadBundle('bundle');
+				
 			}
 			
 			function checkSubmit(e) {
