@@ -9,7 +9,7 @@
     	<title>Trail Deluxe</title>
     	<link rel="stylesheet" type="text/css" href="geo.css">
     	<script type="text/JavaScript" src="geolite.js"></script> 
-    	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBuw8snqi5w8eC1xy2NYc7n8gBeXxvh5RY"></script>
+    	<script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY"></script>
 	</head>
 	
 	<body onload="loadBundle();">
