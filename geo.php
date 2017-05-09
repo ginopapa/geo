@@ -9,6 +9,7 @@
     	<title>Trail Deluxe</title>
     	<link rel="stylesheet" type="text/css" href="geo.css">
     	<script type="text/JavaScript" src="geo.js"></script> 
+    	   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBuw8snqi5w8eC1xy2NYc7n8gBeXxvh5RY"></script>
 	</head>
 	
 	<body onload="loadBundle();">
@@ -78,7 +79,7 @@
 		</div>
 		
 		<div id="rightcontainer" style="text-align:center;">
-			<iframe src="" id="mapframe"></iframe>
+			<div  id="map"></div>
 			<div style="max-height:30%; overflow-y:scroll;">
 			<center><button onclick="reloadMap();" id="reloadbutton">Reload map</button>
 			<div class="line"></div> <!-- bind hade varit smart -->

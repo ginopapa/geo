@@ -90,6 +90,10 @@
 								case 'newmedia':
 									loadBundle('media');
 									break;	
+								case 'polyline':
+									reloadMap();
+									break;										
+								
 								default:
 									break;
 						}
@@ -134,7 +138,7 @@
 				}
 				xmlhttp.open("GET", "v1/api/bundle", true);
 				xmlhttp.send();
-				
+				// initMap();
 			}
 			
 			function loadBundlePictures(){
@@ -373,16 +377,15 @@
 				newPolyline += ']'
 				myObj[bundle].paths[path].polyline=JSON.parse(newPolyline);
 				
-				contactServer("UPDATE", "v1/api/polyline/polyline/"+id+"/", newPolyline);
+				contactServer("UPDATE", "v1/api/polyline/polyline/"+id+"/", newPolyline, 'polyline');
 				
 			}
 			
 			function reloadMap() {
-						var lat=myObj[bundlenr].paths[0].polyline[0].lat;
-						var lng=myObj[bundlenr].paths[0].polyline[0].lng;
-						var iframe = document.getElementById('mapframe');
-						iframe.src = "client.php?lat="+lat+"&lng="+lng;	
-					
+				var latitude=myObj[bundlenr].paths[0].polyline[0].lat;
+          	 	var longitude=myObj[bundlenr].paths[0].polyline[0].lng;
+    				initMap(latitude,longitude);
+    				loadPolylines()
 			}
 			
 			var mymediainfoTimer="";
@@ -550,6 +553,7 @@
 					loadPlacesPictures();
 					presentPlace('place0');
 					presentMedia('media0');
+					reloadMap();
 					
 			}
 			
@@ -686,4 +690,44 @@
 				var password = document.getElementById("password").value;
 				contactServer("AUTH", "v1/api/login/", username+"/"+password);
 			}
+///////////MAPS////////////
+    var map;
+    var myObj = [];
+    var polyline= [];
+          function initMap(latitude, longitude) {	
+       		 map = new google.maps.Map(document.getElementById('map'), {
+         	 zoom: 11,
+         	  center: {lat: latitude, lng: longitude}
+        	});
+     	 }
+     	 
+	function loadPolylines() {
+		route=[];
+		for (k=0; k <= myObj.length; k++){
+			if (typeof myObj[k] ==="object"){
+				
+				for (j=0; j <= myObj[k].paths.length; j++) {
+					var route= [];
+					if(typeof myObj[k].paths[j] ==="object") {
+						for (i=0; i <= myObj[k].paths[j].polyline.length; i++){
+							if (typeof myObj[k].paths[j].polyline[i] ==="object"){
+								if (myObj[k].paths[j].polyline[i].lat==0 || myObj[k].paths[j].polyline[i].lng==0){} else {
+       								route.push(new google.maps.LatLng(myObj[k].paths[j].polyline[i].lat, myObj[k].paths[j].polyline[i].lng));
+       							}
+       						}
+       					}
+       				}
+       					if (j==pathnr){var pen=1.8;}else{var pen=0.8;}
+       					polyline = new google.maps.Polyline({
+       					path:route,
+       					strokeColor: 'green',
+       					strokeOpacity: 0.6,
+       					strokeWeight: pen
+       				});	
+       				polyline.setMap(map);	
+       			}	
+       		}
+       	}	
+	}
+	
 			
