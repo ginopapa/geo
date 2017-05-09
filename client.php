@@ -18,7 +18,7 @@
 
 				
 
-			<div id="mapdiv" style="position:fixed; top:0; left:0; height:90%; width:100%; background-color:green;z-index:1;"></div>
+			<div id="mapdiv" style="position:fixed; top:0; left:0; height:90%; width:100%; z-index:1;"></div>
 			<div style="position:fixed; width:100%; bottom:20px; left:0; z-index:2;"><div id="bundlescontainer" class="center" style=""></div></div>
 		
 		

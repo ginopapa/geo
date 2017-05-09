@@ -112,27 +112,43 @@
 		route=[];
 		for (k=0; k <= myObj.length; k++){
 			if (typeof myObj[k] ==="object"){
-				
-				for (j=0; j <= myObj[k].paths.length; j++) {
+				var paths=myObj[k].paths;
+				for (j=0; j <= paths.length; j++) {
 					var route= [];
-					if(typeof myObj[k].paths[j] ==="object") {
-						var pathname=myObj[k].paths[j].name;
-						for (i=0; i <= myObj[k].paths[j].polyline.length; i++){
-							if (typeof myObj[k].paths[j].polyline[i] ==="object"){
-								if (myObj[k].paths[j].polyline[i].lat==0 || myObj[k].paths[j].polyline[i].lng==0){} else {
-       								route.push(new google.maps.LatLng(myObj[k].paths[j].polyline[i].lat, myObj[k].paths[j].polyline[i].lng));
+					if(typeof paths[j] ==="object") {
+						var pathname=paths[j].name;
+						var pathimage=paths[j].image;
+						var pathinf=paths[j].info;
+						var pathlength=paths[j].length;
+						var pathduration=paths[j].duration;
+						var poly=myObj[k].paths[j].polyline;
+						for (i=0; i <= poly.length; i++){
+							if (typeof poly[i] ==="object"){
+								if (poly[i].lat==0 || poly[i].lng==0){} else {
+       								route.push(new google.maps.LatLng(poly[i].lat, poly[i].lng));
        							}
        						}
        					}
        					//Marker
-       					for (l=0; l<= myObj[k].paths[j].places.length;l++ ){
-       						if(typeof myObj[k].paths[j].places[l] ==="object"){
-       							var latitude=myObj[k].paths[j].places[l].latitude;
-       							var longitude=myObj[k].paths[j].places[l].longitude;
-       							var name=myObj[k].paths[j].places[l].name;
-       							var meter=1000*(myObj[k].paths[j].places[l].radius);
+       					var places=myObj[k].paths[j].places;
+       					for (l=0; l<= places.length;l++ ){
+       						if(typeof places[l] ==="object"){
+       							var latitude=places[l].latitude;
+       							var longitude=places[l].longitude;
+       							var name=places[l].name;
+       							var meter=1000*(places[l].radius);
        							var coordinates=(new google.maps.LatLng(latitude, longitude));
        							
+       							///Content in media
+       							var mediacontent="";
+       							var media=myObj[k].paths[j].places[l].media;
+       							for (m=0; m<= media.length; m++) {
+       								if(typeof media[m] ==="object"){
+       									mediacontent+="<p>"+media[m].name+
+       									"<br><img style='max-height:150px;' src='"+media[m].image+"'>";
+       								}
+       							}
+       							///////////////////
        							var marker = new google.maps.Marker({
         							position: coordinates,
         							title: name,
@@ -147,11 +163,12 @@
  										strokeWeight: 0.6
 									});
 								circle.bindTo('center', marker, 'position');
-								var content = myObj[k].paths[j].places[l].name+
-								"<p><img src='"+myObj[k].paths[j].places[l].image+"'>"+
-								"<p>"+myObj[k].paths[j].places[l].info+
-								"<p> Latitude: "+myObj[k].paths[j].places[l].latitude+
-								" Longitude: "+myObj[k].paths[j].places[l].longitude;
+								//////Content in places
+								var content = places[l].name+
+								"<p><img src='"+places[l].image+"'>"+
+								"<br>"+places[l].info+
+								"<p> Latitude: "+places[l].latitude+
+								" Longitude: "+places[l].longitude+"<p>"+mediacontent;
 								
 								var infowindow = new google.maps.InfoWindow()
 								
@@ -167,39 +184,70 @@
   
        						}
        					}
+       				
+
+					    var clat=poly[0].lat;
+       					var clng=poly[0].lng;
+       					var latlng = new google.maps.LatLng(clat, clng);
        					
-       					
-       				}
+      					var circle = new google.maps.Circle({
+  							map: map,
+  							center: latlng,
+  							radius: 150,    
+ 							fillColor: 'darkgreen',
+ 							strokeWeight: 0.9
+						});  
+						
+         				var marker = new google.maps.Marker({
+        					position: latlng,
+        					title: name,
+       						map: map,
+       						label: 'S'
+       								
+      					});     					
+						
+										
+						var content=pathname+"<p><img style='max-height:200px;' src='"+pathimage+"'><br>"+pathinf+"<p>"+"Length: "+pathlength+"km<br>Duration: "+pathduration+"H";
+						google.maps.event.addListener(marker,'click', (function(marker,content,infowindow){ 
+      						return function() {
+      							infowindow.setPosition(circle.getCenter()); // blev kortare så..
+          						infowindow.setContent(content);
+           						infowindow.open(map,marker);
+        					};
+   						})(marker,content,infowindow));  						
+						
+						
+       			}
        				
        				
        				
-       					if (j==pathnr){var pen=3;}else{var pen=2;}
-       					polyline = new google.maps.Polyline({
+       			if (j==pathnr){var pen=4;} else {var pen=3;}
+       				polyline = new google.maps.Polyline({
        					path:route,
        					strokeColor: 'green',
        					strokeOpacity: 0.6,
        					strokeWeight: pen
        				});	
        				polyline.setMap(map);
-       				var content=pathname;
+
+       				
  					var infowindow = new google.maps.InfoWindow()
 							
-					 google.maps.Polyline.prototype.getPosition = function() {
-       					 return this.getPath().getAt(0);
+					google.maps.Polyline.prototype.getPosition = function() {
+       					return this.getPath().getAt(0);
   					  }		
-							
-								
+			
 					google.maps.event.addListener(polyline,'click', (function(polyline,content,infowindow){ 
       						return function() {
           						infowindow.setContent(content);
            						infowindow.open(map,polyline);
-        						};
-   						})(polyline,content,infowindow));       				
+        					};
+   					})(polyline,content,infowindow));       				
        				
        					
        			}	
        		}
-       	}	
+       	}
+       		
 	}
-	
 	
