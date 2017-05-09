@@ -35,16 +35,6 @@
    				document.getElementById("nr"+bundlenr).style.backgroundColor='white';
    			}
    			
-   			function selection() {
-   				
-   				if (!document.getElementById("nr"+bundlenr)) {
-   				
-   				} else {
-   					document.getElementById("nr"+bundlenr).style.backgroundColor='lightgrey';
-   				}
-   				
-   				//document.getElementById("path0").style.backgroundColor='lightgrey';
-   			}
    			
    			function contactServer(method, uri, message, action) {
 				time=nowTime();
@@ -528,8 +518,10 @@
 			
 			function presentBundle(nr){
 					reset();
+					document.getElementById("nr"+bundlenr).style.backgroundColor='white';
 					idindex=myObj[nr].id;
 					bundlenr=nr;
+					document.getElementById("nr"+bundlenr).style.backgroundColor='lightgrey';
 					pathnr=0;
 					placenr=0;
 					medianr=0;
@@ -537,11 +529,13 @@
 					document.getElementById("bundleinfo").value=myObj[nr].info;
 					document.getElementById("bundleid").value=myObj[nr].id;	
 					document.getElementById("bundleimageurl").value=myObj[nr].image;
-					selection();
+					
 			}
 			
 			function presentPath(path){
+					document.getElementById("path"+pathnr).style.backgroundColor='white';
 					pathnr=path.substr(4);
+   					document.getElementById("path"+pathnr).style.backgroundColor='lightgrey';
 					presentPolyline();
 					placenr=0;
 					medianr=0;
@@ -558,7 +552,9 @@
 			}
 			
 			function presentPlace(place){
+					document.getElementById("place"+placenr).style.backgroundColor='white';
 					placenr=place.substr(5);
+					document.getElementById("place"+placenr).style.backgroundColor='lightgrey';
 					var places=myObj[bundlenr].paths[pathnr].places;
 					if (typeof places[placenr] ==="object"){
 						var placename=places[placenr].name;
@@ -586,7 +582,9 @@
 			}
 			
 			function presentMedia(media){
+					document.getElementById("media"+medianr).style.backgroundColor='white';
 					medianr=media.substr(5);
+					document.getElementById("media"+medianr).style.backgroundColor='lightgrey';
 					var places=myObj[bundlenr].paths[pathnr].places;
 					if (typeof places[placenr] ==="object"){
 						var media=myObj[bundlenr].paths[pathnr].places[placenr].media;
@@ -696,7 +694,7 @@
     var polyline= [];
           function initMap(latitude, longitude) {	
        		 map = new google.maps.Map(document.getElementById('map'), {
-         	 zoom: 11,
+         	 zoom: 12,
          	  center: {lat: latitude, lng: longitude}
         	});
      	 }
@@ -709,6 +707,7 @@
 				for (j=0; j <= myObj[k].paths.length; j++) {
 					var route= [];
 					if(typeof myObj[k].paths[j] ==="object") {
+						var pathname=myObj[k].paths[j].name;
 						for (i=0; i <= myObj[k].paths[j].polyline.length; i++){
 							if (typeof myObj[k].paths[j].polyline[i] ==="object"){
 								if (myObj[k].paths[j].polyline[i].lat==0 || myObj[k].paths[j].polyline[i].lng==0){} else {
@@ -716,18 +715,82 @@
        							}
        						}
        					}
+       					//Marker
+       					for (l=0; l<= myObj[k].paths[j].places.length;l++ ){
+       						if(typeof myObj[k].paths[j].places[l] ==="object"){
+       							var latitude=myObj[k].paths[j].places[l].latitude;
+       							var longitude=myObj[k].paths[j].places[l].longitude;
+       							var name=myObj[k].paths[j].places[l].name;
+       							var meter=1000*(myObj[k].paths[j].places[l].radius);
+       							var coordinates=(new google.maps.LatLng(latitude, longitude));
+       							
+       							var marker = new google.maps.Marker({
+        							position: coordinates,
+        							title: name,
+       								map: map,
+       								
+      							 });
+      							 
+      							var circle = new google.maps.Circle({
+  										map: map,
+  										radius: meter,    
+ 										fillColor: '#AA0000',
+ 										strokeWeight: 0.6
+									});
+								circle.bindTo('center', marker, 'position');
+								var content = myObj[k].paths[j].places[l].name+
+								"<p><img src='"+myObj[k].paths[j].places[l].image+"'>"+
+								"<p>"+myObj[k].paths[j].places[l].info+
+								"<p> Latitude: "+myObj[k].paths[j].places[l].latitude+
+								" Longitude: "+myObj[k].paths[j].places[l].longitude;
+								
+								var infowindow = new google.maps.InfoWindow()
+								
+								google.maps.event.addListener(marker,'click', (function(marker,content,infowindow){ 
+      								return function() {
+          							infowindow.setContent(content);
+           							infowindow.open(map,marker);
+        							};
+   								})(marker,content,infowindow)); 
+
+  
+  
+  
+       						}
+       					}
+       					
+       					
        				}
-       					if (j==pathnr){var pen=1.8;}else{var pen=0.8;}
+       				
+       				
+       				
+       					if (j==pathnr){var pen=3;}else{var pen=2;}
        					polyline = new google.maps.Polyline({
        					path:route,
        					strokeColor: 'green',
        					strokeOpacity: 0.6,
        					strokeWeight: pen
        				});	
-       				polyline.setMap(map);	
+       				polyline.setMap(map);
+       				var content=pathname;
+ 					var infowindow = new google.maps.InfoWindow()
+							
+					 google.maps.Polyline.prototype.getPosition = function() {
+       					 return this.getPath().getAt(0);
+  					  }		
+							
+								
+					google.maps.event.addListener(polyline,'click', (function(polyline,content,infowindow){ 
+      						return function() {
+          						infowindow.setContent(content);
+           						infowindow.open(map,polyline);
+        						};
+   						})(polyline,content,infowindow));       				
+       				
+       					
        			}	
        		}
        	}	
 	}
 	
-			
+	
