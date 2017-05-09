@@ -1,5 +1,5 @@
 <?php
-//// Run script in web browser
+//// write in manually first or run script and fill out the form.
 if($_GET['servername']==""){$servername = "localhost";} else{ $servername=$_GET['servername'];}
 if($_GET['username']==""){$username = "username";} else{ $username=$_GET['username'];}
 if($_GET['password']==""){$password = "password";} else{ $password=$_GET['password'];}
@@ -156,10 +156,10 @@ echo $html="<html><body><form action='geoinstall.php'><input type='text' name='s
 $conn = null;
 
 
-
+/*
 if ($success==6){
 		$myfile = fopen("sql.php", "w") or die("Unable to open file!");
-		echo $data="<?php 
+		($data="<?php 
 				$username=".$username.";
 
 				$password=".$password.";
@@ -179,12 +179,14 @@ if ($success==6){
   					}		
 		
 		
-		 ?>";
+		 ?>");
 		fwrite($myfile, $data);
 		fclose($myfile);
 	echo "<br> All tables installed, you can start using geo.php now";
+}*/
 }
-}
+
+
 ?>
 
 
