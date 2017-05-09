@@ -1,6 +1,6 @@
   		 	///Globals
    			var myObj=[];
-   			var idindex=0; //ta bort senare
+   			var idindex=0;
    			var bundlenr=0;
    			var pathnr=0;
    			var placenr=0;
@@ -14,7 +14,7 @@
    			
    			function resetVar(from){
    				myObj=[];
-   				idindex=0; //ta bort senare
+   				idindex=0;
    				
    				switch(from){ //with fall-through
    					
@@ -128,7 +128,7 @@
 				}
 				xmlhttp.open("GET", "v1/api/bundle", true);
 				xmlhttp.send();
-				// initMap();
+				
 			}
 			
 			function loadBundlePictures(){
@@ -356,7 +356,6 @@
 
 			
 			function changePolyline(id, bundle, path) {
-			//Att fixa: Dubbelchecka om värdet ändrats
 				var lat = document.getElementsByClassName("polylat");
 				var lng = document.getElementsByClassName("polylong");
 				var newPolyline="[";
@@ -430,7 +429,7 @@
 						var newdata=document.getElementById("placeimageurl").value;
 						myObj[bundlenr].paths[pathnr].places[placenr].image=newdata;
 						document.getElementById("placesimg"+placenr).src=newdata;
-						newdata=newdata.replace(/\//g, "--"); //för att ta sig igenom till databasen
+						newdata=newdata.replace(/\//g, "--"); //to reach backend
 						break;
 					case 'latitude':
 						var newdata=document.getElementById("placelat").value;
@@ -445,7 +444,7 @@
 						myObj[bundlenr].paths[pathnr].places[placenr].radius=newdata;
 						break;						default:
 				}	
-				placeindex=myObj[bundlenr].paths[pathnr].places[placenr].id; //ändra sen?
+				placeindex=myObj[bundlenr].paths[pathnr].places[placenr].id;
 				contactServer("UPDATE", "v1/api/places/"+type+"/"+placeindex+"/", newdata);
 			}
 			
@@ -470,7 +469,7 @@
 						var newdata=document.getElementById("pathimageurl").value;
 						myObj[bundlenr].paths[pathnr].image=newdata;
 						document.getElementById("pathimg"+pathnr).src=newdata;
-						newdata=newdata.replace(/\//g, "--"); //för att ta sig igenom till databasen
+						newdata=newdata.replace(/\//g, "--"); //to reach backend
 						break;
 					case 'length':
 						var newdata=document.getElementById("pathlength").value;
@@ -507,7 +506,7 @@
 						var newdata=document.getElementById("bundleimageurl").value;
 						myObj[bundlenr].image=newdata;
 						document.getElementById("bundleimg"+bundlenr).src=newdata;
-						newdata=newdata.replace(/\//g, "--"); //för att ta sig igenom till databasen
+						newdata=newdata.replace(/\//g, "--"); //to reach backend
 						break;	
 					default:
 				}
@@ -673,7 +672,7 @@
 				document.getElementById("bundlescontainer").innerHTML="";
 				document.getElementById("pathscontainer").innerHTML="";
 				document.getElementById("polylinecontainer").innerHTML="";
-				//document.getElementById("placeinfocontainer").innerHTML="";
+				
 				
 			}
 			

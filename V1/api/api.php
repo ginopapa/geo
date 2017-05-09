@@ -69,7 +69,7 @@ if ($method=="POST"){
 
 
 
-/*///Tillfällig innan databas klar/////
+/*///In case you want to read from a json file/////
 $json = file_get_contents('php://input');
 //$code=json_decode($json);
 
@@ -319,7 +319,7 @@ if ($method=="DELETE"){
  $$$;     :$$$$$$$$$$$$$$bT$$$$$P^^T$p.    `T$$$$$$;     :$$$ 
 :$$$      :$$$$$$$$$$$$$$P `^^^'    "^T$p.    lb`TP       $$$;
 :$$$      $$$$$$$$$$$$$$$              `T$$p._;$b         $$$;
-$$$;      $$$$$$$$$$$$$$;       PHP      `T$$$$:Tb        :$$$
+$$$;      $$$$$$$$$$$$$$;       GEO      `T$$$$:Tb        :$$$
 $$$;      $$$$$$$$$$$$$$$                        Tb    _  :$$$
 :$$$     d$$$$$$$$$$$$$$$.                        $b.__Tb $$$;
 :$$$  .y$$$$$$$$$$$$$$$$$$$p...______...yp._      :$`^^^' $$$;
@@ -340,9 +340,7 @@ $$$;      $$$$$$$$$$$$$$$                        Tb    _  :$$$
 
 
 
-gammal kod:
-$bundleID=$bundle[0]->bundleID;
-if (ctype_digit($request_parts[0])) {$bundleID="WHERE bundleId=".$request_parts[0];} else {$bundleID="";}
+ctype_digit....
 */
 
 
