@@ -84,6 +84,9 @@
 					idindex=myObj[nr].id;
 					bundlenr=nr;
 					document.getElementById("nr"+bundlenr).style.backgroundColor='lightgrey';
+					document.getElementById("bundlename").innerHTML=myObj[bundlenr].name;
+					document.getElementById("bundleimage").src=myObj[bundlenr].image;
+					document.getElementById("bundleinfotext").innerHTML=myObj[bundlenr].info;
 					pathnr=0;
 					placenr=0;
 					medianr=0;
