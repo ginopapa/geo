@@ -364,7 +364,7 @@
 				var lat = document.getElementsByClassName("polylat");
 				var lng = document.getElementsByClassName("polylong");
 				
-				if (lat >= -90 && lat <=90 && lng >= -180 && lng <=180){
+			//	if (lat >= -90 && lat <=90 && lng >= -180 && lng <=180){
 					var newPolyline="[";
 					for (i = 0; i < lat.length; i++) {
 						newPolyline += '{"lat": '+lat[i].value+', '+'"lng": '+lng[i].value+'},';
@@ -372,12 +372,12 @@
 					newPolyline = newPolyline.slice(0, -1);
 					newPolyline += ']'
 					myObj[bundle].paths[path].polyline=JSON.parse(newPolyline);
-				
+					//console.log(newPolyline);
 					contactServer("UPDATE", "v1/api/polyline/polyline/"+id+"/", newPolyline, 'polyline');
-				} else {
-					if (lat < -90 || lat > 90){}
+				//} else {
+				//	if (lat < -90 || lat > 90){}
 				
-				}
+				//}
 				
 			}
 			
