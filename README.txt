@@ -1,4 +1,5 @@
-20170515 - Bug fix, geo.js: When admin delete all bundles/paths/places/media.
+20170515 - Bug fix, geo.js: Polyline update works again.
+20170515 - Bug fix, geo.js: For when admin delete all bundles/paths/places/media.
 20170511 - Up next: Input validation & Security
 
 Geo installation manual
