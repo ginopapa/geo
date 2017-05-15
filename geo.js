@@ -1,6 +1,6 @@
   		 	///Globals
    			var myObj=[];
-   			var idindex=0;
+   			var idindex=0; //ta bort senare
    			var bundlenr=0;
    			var pathnr=0;
    			var placenr=0;
@@ -14,7 +14,7 @@
    			
    			function resetVar(from){
    				myObj=[];
-   				idindex=0;
+   				idindex=0; //ta bort senare
    				
    				switch(from){ //with fall-through
    					
@@ -128,7 +128,7 @@
 				}
 				xmlhttp.open("GET", "v1/api/bundle", true);
 				xmlhttp.send();
-				
+				// initMap();
 			}
 			
 			function loadBundlePictures(){
@@ -161,7 +161,7 @@
 						document.getElementById("img"+i).onclick=function(){deleteBundle(this.id);};
 					}
 				}
-				
+				if (myObj.length==0){newBundle();}
 
 				
 				var imgplus = document.createElement("img");
@@ -205,6 +205,7 @@
 					}
 					
 				}
+				if (paths.length==0){newPath();}
 				var imgplus = document.createElement("img");
 				imgplus.src="img/plus.png";
 				imgplus.className="bundleimage";
@@ -253,7 +254,7 @@
 						document.getElementById("placedelete"+i).onclick=function(){deletePlace(this.id);};
 					}
 				}
-				
+				if (places.length==0){newPlace();}
 				var imgplus = document.createElement("img");
 				imgplus.src="img/plus.png";
 				imgplus.className="bundleimage";
@@ -301,10 +302,13 @@
 							document.getElementById("mediadelete"+i).onclick=function(){deleteMedia(this.id);};
 						}
 					}
+					if (media.length==0){newMedia();}
+					console.log(i);
 					var imgplus = document.createElement("img");
 					imgplus.src="img/plus.png";
 					imgplus.className="bundleimage";
 					imgplus.onclick= function (){newMedia();};
+					
 					parent.appendChild(imgplus);
 					presentMedia('media0');
 				}
@@ -356,17 +360,24 @@
 
 			
 			function changePolyline(id, bundle, path) {
+			//Att fixa: Dubbelchecka om värdet ändrats
 				var lat = document.getElementsByClassName("polylat");
 				var lng = document.getElementsByClassName("polylong");
-				var newPolyline="[";
-				for (i = 0; i < lat.length; i++) {
-					newPolyline += '{"lat": '+lat[i].value+', '+'"lng": '+lng[i].value+'},';
-				}
-				newPolyline = newPolyline.slice(0, -1);
-				newPolyline += ']'
-				myObj[bundle].paths[path].polyline=JSON.parse(newPolyline);
 				
-				contactServer("UPDATE", "v1/api/polyline/polyline/"+id+"/", newPolyline, 'polyline');
+				if (lat >= -90 && lat <=90 && lng >= -180 && lng <=180){
+					var newPolyline="[";
+					for (i = 0; i < lat.length; i++) {
+						newPolyline += '{"lat": '+lat[i].value+', '+'"lng": '+lng[i].value+'},';
+					}
+					newPolyline = newPolyline.slice(0, -1);
+					newPolyline += ']'
+					myObj[bundle].paths[path].polyline=JSON.parse(newPolyline);
+				
+					contactServer("UPDATE", "v1/api/polyline/polyline/"+id+"/", newPolyline, 'polyline');
+				} else {
+					if (lat < -90 || lat > 90){}
+				
+				}
 				
 			}
 			
@@ -429,7 +440,7 @@
 						var newdata=document.getElementById("placeimageurl").value;
 						myObj[bundlenr].paths[pathnr].places[placenr].image=newdata;
 						document.getElementById("placesimg"+placenr).src=newdata;
-						newdata=newdata.replace(/\//g, "--"); //to reach backend
+						newdata=newdata.replace(/\//g, "--"); //för att ta sig igenom till databasen
 						break;
 					case 'latitude':
 						var newdata=document.getElementById("placelat").value;
@@ -444,7 +455,7 @@
 						myObj[bundlenr].paths[pathnr].places[placenr].radius=newdata;
 						break;						default:
 				}	
-				placeindex=myObj[bundlenr].paths[pathnr].places[placenr].id;
+				placeindex=myObj[bundlenr].paths[pathnr].places[placenr].id; //ändra sen?
 				contactServer("UPDATE", "v1/api/places/"+type+"/"+placeindex+"/", newdata);
 			}
 			
@@ -469,7 +480,7 @@
 						var newdata=document.getElementById("pathimageurl").value;
 						myObj[bundlenr].paths[pathnr].image=newdata;
 						document.getElementById("pathimg"+pathnr).src=newdata;
-						newdata=newdata.replace(/\//g, "--"); //to reach backend
+						newdata=newdata.replace(/\//g, "--"); //för att ta sig igenom till databasen
 						break;
 					case 'length':
 						var newdata=document.getElementById("pathlength").value;
@@ -506,7 +517,7 @@
 						var newdata=document.getElementById("bundleimageurl").value;
 						myObj[bundlenr].image=newdata;
 						document.getElementById("bundleimg"+bundlenr).src=newdata;
-						newdata=newdata.replace(/\//g, "--"); //to reach backend
+						newdata=newdata.replace(/\//g, "--"); //för att ta sig igenom till databasen
 						break;	
 					default:
 				}
@@ -672,7 +683,7 @@
 				document.getElementById("bundlescontainer").innerHTML="";
 				document.getElementById("pathscontainer").innerHTML="";
 				document.getElementById("polylinecontainer").innerHTML="";
-				
+				//document.getElementById("placeinfocontainer").innerHTML="";
 				
 			}
 			
@@ -811,10 +822,10 @@
        				
        				
        				
-       			if (j==pathnr){var pen=4;} else {var pen=3;}
+       			if (j==pathnr){var pen=4; var color="red";} else {var pen=3; var color="green";}
        				polyline = new google.maps.Polyline({
        					path:route,
-       					strokeColor: 'green',
+       					strokeColor: color,
        					strokeOpacity: 0.6,
        					strokeWeight: pen
        				});	
